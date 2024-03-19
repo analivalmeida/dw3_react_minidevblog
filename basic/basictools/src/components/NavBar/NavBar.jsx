@@ -1,5 +1,4 @@
 import 'react'
-
 const NavBar =() =>{
     return(
         <>
