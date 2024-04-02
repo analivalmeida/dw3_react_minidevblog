@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 var teste = 8
  const Form = () => {
   const handleMyEvent = (e) =>{
     console.log(e)
     console.log("Ativou o evento!")
   }
+
+  const [x, setX] = useState(true)
   const renderButton = (x) => {
     if(x){
       return <h1>Rederizou bonitinho</h1>
@@ -30,8 +32,8 @@ var teste = 8
           }}>Será que você clicaria aqui?</button>
         </div>
         <div>
-          {renderButton(true)}
-          {renderButton(false)}
+          <h1>{x ? 'Redenrizou' : 'Deu ruim'}</h1>
+          <button onClick={() => setX(!x)}>Valida pepino</button> 
         </div>
         </div>
 
