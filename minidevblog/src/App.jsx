@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {BrowserRouter,Routes, Route, Navigate, Form} from 'react-router-dom'
+import {AutProvider, AuthProvider} from './context/AuthContext'
+import {onAuthStateChanged} from 'firebase/auth'
+import { useState } from 'react'
+import {userAutentication} from './hooks/userAutentication'
+import { Header }  from './componentes/Header/Header' 
+import { login } from './pages/Login/Login'
+import { Home } from '.pages/Home/Home'
+import { Posts } from '/pages/Posts/Posts'   
+import { useEffect } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+function App(){
+  const [user, SetUser] = useState(underfined)
+  const {auth} = userAutentication()
 
-  return (
+  useEffect (() => {
+    onAuthStateChanged (auth, user => {setUser(user)} )
+  }, [auth])
+
+  if (user === undefined) {
+    return <div></div>
+  }
+  return(
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  <AuthProvider value={{user}}>
+    <BrowserRouter>
+    <Header>
+      <div classNAme='comtainer'>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/login' element={<login/>}></Route>
+          <Route path='/posts' element={<Posts/>}></Route>
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      </Header>
+      </BrowserRouter>
+  </AuthProvider>
     </>
   )
 }
-
 export default App
